@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">ComicApp</string>
+    <string name="error_getting_info">¡Ups! Something went wrong</string>
+    <string name="getting_comic_list">Getting comics list</string>
+    <string name="just_a_sec">Just a sec...</string>
+    <string name="comics_api_str_results">results</string>
+    <string name="comics_api_str_image">image</string>
+    <string name="comics_api_str_original_url">original_url</string>
+    <string name="comics_api_str_date_added">date_added</string>
+    <string name="comics_api_str_name">name</string>
+    <string name="comics_api_str_issue_number">issue_number</string>
+    <string name="comics_api_str_detail_url">api_detail_url</string>
+</resources>
