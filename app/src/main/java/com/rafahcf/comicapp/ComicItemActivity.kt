@@ -34,6 +34,7 @@ class ComicItemActivity : AppCompatActivity() {
         val image = bundle.getString("image")
         getComicAndCredits(detailUrl!!)
 
+        //setting comic main image on ui
         val imageViewComicItemImage = findViewById<ImageView>(R.id.imageViewComicItemImage)
         Picasso.get().load(image).into(imageViewComicItemImage)
 
@@ -42,11 +43,13 @@ class ComicItemActivity : AppCompatActivity() {
         recyclerView_LocationCredits = findViewById(R.id.recyclerView_LocationCredits)
         recyclerView_TeamCredits = findViewById(R.id.recyclerView_TeamCredits)
 
+        //setting recycleviews
         recyclerView_CharacterCredits!!.setHasFixedSize(true)
         recyclerView_ConceptCredits!!.setHasFixedSize(true)
         recyclerView_LocationCredits!!.setHasFixedSize(true)
         recyclerView_TeamCredits!!.setHasFixedSize(true)
 
+        //gridlayout with 2 columns
         recyclerView_CharacterCredits!!.layoutManager = GridLayoutManager(this, 2)
         recyclerView_ConceptCredits!!.layoutManager = GridLayoutManager(this, 2)
         recyclerView_LocationCredits!!.layoutManager = GridLayoutManager(this, 2)
@@ -57,16 +60,19 @@ class ComicItemActivity : AppCompatActivity() {
         mAdapterLocationCredits = RecyclerAdapter()
         mAdapterTeamCredits = RecyclerAdapter()
 
+        //sending empty list of items for initialization
         mAdapterCharacterCredits!!.RecyclerAdapter(ComicsWebservice.characters_list, this)
         mAdapterConceptCredits!!.RecyclerAdapter(ComicsWebservice.concepts_list, this)
         mAdapterLocationCredits!!.RecyclerAdapter(ComicsWebservice.locations_list, this)
         mAdapterTeamCredits!!.RecyclerAdapter(ComicsWebservice.teams_list, this)
 
+        //setting adapters
         recyclerView_CharacterCredits!!.adapter = mAdapterCharacterCredits
         recyclerView_ConceptCredits!!.adapter = mAdapterConceptCredits
         recyclerView_LocationCredits!!.adapter = mAdapterLocationCredits
         recyclerView_TeamCredits!!.adapter = mAdapterTeamCredits
 
+        //cleaning lists every time this activity starts
         ComicsWebservice.cleanLists()
     }
 
@@ -84,6 +90,7 @@ class ComicItemActivity : AppCompatActivity() {
 
     private fun getItemCreditsInfo() {
 
+        //getting data from api for every item credit
         for(i in 0 until ComicsWebservice.characterCredits.size){
             ComicsWebservice.getCharacterItemCredits(this, "character", ComicsWebservice.characterCredits[i].api_detail_url){ complete ->
                 if(complete){
@@ -117,6 +124,7 @@ class ComicItemActivity : AppCompatActivity() {
 
     fun showItemCreditsOnUI(){
 
+        //reseting adapters and notifying changes
         recyclerView_CharacterCredits!!.setHasFixedSize(true)
         recyclerView_ConceptCredits!!.setHasFixedSize(true)
         recyclerView_LocationCredits!!.setHasFixedSize(true)

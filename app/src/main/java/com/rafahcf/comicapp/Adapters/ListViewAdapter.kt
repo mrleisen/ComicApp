@@ -11,7 +11,7 @@ import com.rafahcf.comicapp.Models.Comic
 import com.rafahcf.comicapp.R
 import com.squareup.picasso.Picasso
 
-public class ListViewAdapter(context: Context, resource: Int, objects: List<Comic>) :
+class ListViewAdapter(context: Context, resource: Int, objects: List<Comic>) :
     ArrayAdapter<Comic>(context, resource, objects) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
@@ -22,14 +22,17 @@ public class ListViewAdapter(context: Context, resource: Int, objects: List<Comi
             v = inflater.inflate(R.layout.list_item, null)
         }
 
+        //getting ui elements
         val comic = getItem(position)
         val imageView_comicImage = v!!.findViewById<ImageView>(R.id.imageView_comicImage)
         val textView_dateAdded = v.findViewById<TextView>(R.id.textView_dateAdded)
         val textView_nameIssueNumber = v.findViewById<TextView>(R.id.textView_nameIssueNumber)
 
+        //if comic does not have a name
         if(comic!!.name == "null"){
             comic.name = "untitled"
         }
+        //setting data on ui
         Picasso.get().load(comic.image).into(imageView_comicImage)
         textView_nameIssueNumber.text = "${comic.name} #${comic.issue_number}"
         textView_dateAdded.text = comic.date_added_refactor()

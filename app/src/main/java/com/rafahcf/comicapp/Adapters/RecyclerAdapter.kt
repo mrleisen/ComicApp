@@ -38,6 +38,7 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        //getting imgageview and textview of item
         val imageViewItemCreditImage = view.findViewById(R.id.imageViewItemCreditImage) as ImageView
         val textViewItemCreditName = view.findViewById(R.id.textViewItemCreditName) as TextView
 
@@ -45,12 +46,12 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
             imageViewItemCreditImage.loadUrl(itemCredits.image)
             textViewItemCreditName.text = itemCredits.name
             itemView.setOnClickListener(View.OnClickListener {
-
-
+                //do something when click on it
             })
         }
 
         fun ImageView.loadUrl(url: String) {
+            //loading image from internet
             Picasso.get().load(url).into(this)
         }
     }

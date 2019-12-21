@@ -1,6 +1,7 @@
 package com.rafahcf.comicapp.Webservice
 
 import android.content.Context
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -14,6 +15,7 @@ import com.rafahcf.comicapp.Models.ItemCredits
 import com.rafahcf.comicapp.R
 import org.json.JSONException
 import org.json.JSONObject
+
 
 object ComicsWebservice {
 
@@ -62,12 +64,12 @@ object ComicsWebservice {
             try {
                 val comic = response.getJSONObject(context.getString(R.string.comics_api_str_results))
                 val image = comic.getJSONObject(context.getString(R.string.comics_api_str_image))
-                val comic_image = image.getString(context.getString(R.string.comics_api_str_original_url))
                 val characterCreditsJsonArray = comic.getJSONArray("character_credits")
                 val conceptCreditsJsonArray = comic.getJSONArray("concept_credits")
                 val locationCreditsJsonArray = comic.getJSONArray("location_credits")
                 val teamCreditsJsonArray = comic.getJSONArray("team_credits")
 
+                //saving creditos on every list
                 for (a in 0 until characterCreditsJsonArray.length()){
                     characterCredits.add(
                         Credits(
@@ -127,6 +129,7 @@ object ComicsWebservice {
                 val itemCreditsImage = image.getString(context.getString(R.string.comics_api_str_original_url))
                 val itemCreditsName = itemCredits.getString("name")
 
+                //depending on type of item, it saves on every list
                 when(type){
                     "character" -> {
                         characters_list.add(
@@ -168,6 +171,13 @@ object ComicsWebservice {
                 e.printStackTrace()
             }
         }, Response.ErrorListener { complete(false) })
+
+        request.retryPolicy = DefaultRetryPolicy(
+            DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+
         queue.add(request)
     }
 
