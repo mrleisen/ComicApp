@@ -1,20 +1,20 @@
 package com.rafahcf.comicapp
 
 import android.app.ProgressDialog
+import android.app.usage.NetworkStats
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewStub
+import android.view.*
 import android.widget.AdapterView
 import android.widget.GridView
 import android.widget.ListView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.rafahcf.comicapp.Adapters.GridViewAdapter
 import com.rafahcf.comicapp.Adapters.ListViewAdapter
+import com.rafahcf.comicapp.Utils.NetworkStatus
 import com.rafahcf.comicapp.Webservice.ComicsWebservice
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
@@ -47,7 +47,11 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         val sharedPreferences = getSharedPreferences("ViewMode", Context.MODE_PRIVATE)
         currentViewMode = sharedPreferences.getInt("currentViewMode", VIEW_HOME_LISTVIEW)
 
-        switchView()
+        if(!NetworkStatus.NetworkOn(this)){
+            noInternetDialog()
+        }else{
+            switchView()
+        }
 
     }
 
@@ -127,4 +131,21 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
         return super.onOptionsItemSelected(item)
     }
+
+    private fun noInternetDialog(){
+
+        val builder = AlertDialog.Builder(this)
+
+        val viewInflated: View = LayoutInflater.from(this).inflate(R.layout.dialog_no_internet_available, null)
+        builder.setView(viewInflated)
+
+        builder.setNegativeButton("Ok") { _, _ -> }
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+
+    }
+
+
 }
+
